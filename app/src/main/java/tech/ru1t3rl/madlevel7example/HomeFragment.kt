@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import tech.ru1t3rl.madlevel7example.databinding.FragmentHomeBinding
 
@@ -33,6 +34,15 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.action_homeFragment_to_createQuizFragment2)
         }
 
-        
+        viewModel.quiz.observe(viewLifecycleOwner, {
+            if(!it.question.isBlank() && !it.answer.isBlank()) {
+                binding.btStartQuiz.alpha = 1.0f
+                binding.btStartQuiz.isClickable = true
+
+                binding.btStartQuiz.setOnClickListener {
+                    navController.navigate(R.id.action_homeFragment_to_quizFragment)
+                }
+            }
+        })
     }
 }
